@@ -32,7 +32,10 @@ WORKDIR /home/appuser
 USER appuser
 
 # Install application into container
-COPY cogs data songs main.py customDiscordClient.py ./
+COPY main.py customDiscordClient.py ./
+COPY cogs ./cogs
+COPY songs ./songs
+COPY data ./data
 
 # Run the application
 ENTRYPOINT ["python", "main.py"]

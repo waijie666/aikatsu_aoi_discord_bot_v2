@@ -15,7 +15,7 @@ def init_logger(debug=False):
     consoleHandler.setFormatter(formatter)
         
     handlers = [consoleHandler]
-    if not os.environ.get("ENV AM_I_IN_A_DOCKER_CONTAINER"):
+    if not os.environ.get("AM_I_IN_A_DOCKER_CONTAINER"):
         if not os.path.isdir("logs"):
             os.mkdir("logs")
         script_name = os.path.basename(__file__)
