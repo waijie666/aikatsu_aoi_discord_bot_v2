@@ -127,7 +127,7 @@ class MiscCog(commands.Cog):
            return
        logging_channel = self.bot.get_channel(457750402448752650)
        embed = discord.Embed(title="Edited Message")
-       embed.set_author(name=str(before.author),icon_url=str(before.author.avatar_url))
+       embed.set_author(name=str(before.author),icon_url=str(before.author.avatar.url))
        embed.timestamp = datetime.now(timezone.utc)
        if before.content :
            embed.add_field(name="Before", value=before.content, inline=False)
