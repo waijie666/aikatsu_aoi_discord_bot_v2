@@ -8,21 +8,22 @@ import sys
 # Logging config
 
 def init_logger(debug=False):
-    if not os.path.isdir("logs"):
-        os.mkdir("logs")
 
-    script_name = os.path.basename(__file__)
-    logpath = f"logs/{script_name}.log"
     formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
     
     consoleHandler = logging.StreamHandler(sys.stdout)
     consoleHandler.setFormatter(formatter)
-    
-    rotatingFileHandler = logging.handlers.TimedRotatingFileHandler(filename=logpath, when='midnight', backupCount=30)
-    rotatingFileHandler.suffix = "%Y%m%d"
-    rotatingFileHandler.setFormatter(formatter)
-
-    handlers = [consoleHandler,rotatingFileHandler]
+        
+    handlers = [consoleHandler]
+    if not os.environ.get("ENV AM_I_IN_A_DOCKER_CONTAINER"):
+        if not os.path.isdir("logs"):
+            os.mkdir("logs")
+        script_name = os.path.basename(__file__)
+        logpath = f"logs/{script_name}.log"
+        rotatingFileHandler = logging.handlers.TimedRotatingFileHandler(filename=logpath, when='midnight', backupCount=30)
+        rotatingFileHandler.suffix = "%Y%m%d"
+        rotatingFileHandler.setFormatter(formatter)
+        handlers.append(rotatingFileHandler)
     
     if debug:
         log_level = logging.DEBUG
