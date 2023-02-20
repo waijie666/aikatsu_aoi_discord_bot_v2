@@ -79,4 +79,4 @@ class customDiscordClient(commands.Bot):
             except (discord.ClientException, ModuleNotFoundError) as e:
                 self.logger.exception(f"Failed to load extension {extension}.")
             self.tree.copy_global_to(guild=MY_GUILD)
-        await self.tree.sync(guild=MY_GUILD)
+        await self.tree.sync()
