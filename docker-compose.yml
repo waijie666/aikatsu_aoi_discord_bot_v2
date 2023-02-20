@@ -1,8 +1,7 @@
 version: "3.3"
 services:
   aikatsu_aoi_discord_bot_v2:
-    image: aikatsu_aoi_discord_bot_v2:latest
-    build: .
+    image: ghcr.io/waijie666/aikatsu_aoi_discord_bot_v2:latest
     restart: always
     env_file: .env
     container_name: aikatsu_aoi_discord_bot_v2
