@@ -3,6 +3,7 @@ on:
   
 env:
   PACKAGE_NAME: aikatsu_aoi_discord_bot_v2
+  OWNER: github.repository_owner
 
 jobs:
   build:
@@ -25,6 +26,6 @@ jobs:
                 }
             }
         env:
-          OWNER: ${{ env.GITHUB_REPOSITORY_OWNER }}
+          OWNER: ${{ env.OWNER }}
           PACKAGE_NAME: ${{ env.PACKAGE_NAME }}
           PER_PAGE: 100
