@@ -13,7 +13,7 @@ jobs:
       - name: Delete untagged images
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const response = await github.request("GET /users/${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions",
               { per_page: ${{ env.PER_PAGE }}
@@ -22,7 +22,7 @@ jobs:
             for(version of response.data) {
                 if (version.metadata.container.tags.length == 0) {
                     console.log("delete " + version.id)
-                    const deleteResponse = await github.request("DELETE /users/${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions/" + version.id, { });
+                    const deleteResponse = await github.request("DELETE /users/${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions/" + version.id);
                     console.log("status " + deleteResponse.status)
                 }
             }
