@@ -742,7 +742,7 @@ class AikatsuCog(commands.Cog):
         return [
             app_commands.Choice(name=choice, value=choice)
             for choice in choices if current.lower() in choice.lower()
-        ]
+        ][:25]
 
     @app_commands.command(name="next_birthday")
     @app_commands.autocomplete(string=birthday_autocomplete)
