@@ -737,7 +737,11 @@ class AikatsuCog(commands.Cog):
     """
 
     @commands.hybrid_command()
-    async def next_birthday(self, ctx, days_or_string : typing.Union[int,str] = 30):
+    async def next_birthday(self, ctx, days_or_string = 30):
+        try:
+            days_or_string = int(days_or_string)
+        except ValueError:
+            pass
         jp_timezone = pytz.timezone("Asia/Tokyo")
         current_time = datetime.now(jp_timezone)
         today = current_time.date()
