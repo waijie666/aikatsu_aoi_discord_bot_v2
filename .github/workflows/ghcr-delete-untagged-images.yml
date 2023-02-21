@@ -1,5 +1,9 @@
+name: Clean up old untagged docker images
+
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
   
 env:
   PACKAGE_NAME: aikatsu_aoi_discord_bot_v2
@@ -11,7 +15,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-      
+
     steps:
       - name: Delete untagged images
         uses: actions/github-script@v6
