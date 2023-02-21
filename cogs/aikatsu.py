@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 import random
 import csv
 from datetime import date, datetime, timedelta
@@ -735,13 +736,28 @@ class AikatsuCog(commands.Cog):
             jp_timezone
         )
     """
+    
+    async def birthday_autocomplete(self, interaction: discord.Interaction, current: str):
+        choices = [ idol_dict["name"] for idol_dict in self.idol_dict_list ]
+        return [
+            app_commands.Choice(name=choice, value=choice)
+            for choice in choices if current.lower() in choice.lower()
+        ]
 
-    @commands.hybrid_command()
-    async def next_birthday(self, ctx, days_or_string = 30):
-        try:
-            days_or_string = int(days_or_string)
-        except ValueError:
-            pass
+    @app_commands.command(name="next_birthday")
+    @app_commands.autocomplete(string=birthday_autocomplete)
+    async def next_birthday_appcommand(self, interaction: discord.Interaction, days: int = 30, string: str = ""):
+        if (string):
+            embed = self.next_birthday(string)
+        else:
+            embed = self.next_birthday(days)
+        await interaction.response.send_message(embed=embed)    
+
+    @commands.command(name="next_birthday")
+    async def next_birthday_command(self, ctx, days_or_string : typing.Union[int,str] = 30):
+        await ctx.send(embed=self.next_birthday(days_or_string))
+
+    def next_birthday(self, days_or_string : typing.Union[int,str] = 30):
         jp_timezone = pytz.timezone("Asia/Tokyo")
         current_time = datetime.now(jp_timezone)
         today = current_time.date()
@@ -763,7 +779,7 @@ class AikatsuCog(commands.Cog):
             embed = discord.Embed(title="Aikatsu Next Birthdays", description=f"Displaying next birthdays for search string: {str(days_or_string)} (max 25 idols)")
         for idol_dict in filtered_idol_dict_list:
             embed.add_field(name=idol_dict["name"], value=idol_dict["next_birthday"], inline=False)
-        await ctx.send(embed=embed)
+        return embed
 
 
     @commands.hybrid_command()
